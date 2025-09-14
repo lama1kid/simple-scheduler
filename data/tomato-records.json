@@ -1,0 +1,19 @@
+[
+    {
+    "date": "2025-09-14",
+    "completed_times": [
+        "14:00", "21:00"
+    ],
+    "tomato_number": 2
+    }
+]
+
+{
+    "2025-09-14": {
+    "completed_times": [
+        "14:00", "21:00"
+    ],
+    "tomato_number": 2
+    }
+}
+
