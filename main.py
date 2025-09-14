@@ -14,13 +14,13 @@ def tomato_clock_emulation():
     count down 30 minutes
     """
     tomato_time = datetime.timedelta(minutes=30)
-    start_time = datetime.datetime.now()
-    end_time = start_time + tomato_time;
+    end_time = datetime.datetime.now() + tomato_time;
     time_remain = end_time - datetime.datetime.now()
     while time_remain.total_seconds() > 0:
-        minutes_remain = math.floor(time_remain.total_seconds() / 60)
-        seconds_remain = math.floor(time_remain.total_seconds() % (minutes_remain * 60))
-        print(f"tomato: \r{minutes_remain}:{seconds_remain}", end='')
+        if bool(time_remain.microseconds):
+            print(f"\rtomato: {datetime.datetime.strptime(str(time_remain), "0:%M:%S.%f").strftime("%M:%S")}", end='')
+        else:
+            print(f"\rtomato: {datetime.datetime.strptime(str(time_remain), "0:%M:%S").strftime("%M:%S")}", end='')
         time.sleep(1)
         time_remain = end_time - datetime.datetime.now()
     print("A tomato is done!")
