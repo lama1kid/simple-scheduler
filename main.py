@@ -4,8 +4,8 @@ import math
 import os
 import json
 
-TOMATO = 0 # minutes
-tomato_records_path = "/home/Qtmd/pylab/simple-scheduler/data/tomato-records-test.json"
+TOMATO = 30 # minutes
+tomato_records_path = "/home/Qtmd/pylab/simple-scheduler/data/tomato-records.json"
 task_pool_path = "/home/Qtmd/Journal/gaokao/task pool.md"
 
 def main():
@@ -30,10 +30,10 @@ def tomato_clock_emulation():
             print(f"\rtomato: {datetime.datetime.strptime(str(time_remain), "0:%M:%S").strftime("%M:%S")}", end='')
         time.sleep(1)
         time_remain = end_time - datetime.datetime.now()
-    print("\nA tomato is done!")
+    print("\nA tomato is done!\a")
     return end_time.strftime("%Y/%m/%d %H:%M:%S")
 
-def record_tomato(end_time):
+def record_tomato(end_time: str):
     """
     open json file and update the record of today
     """
@@ -59,7 +59,8 @@ def record_tomato(end_time):
                 # create the record for today
                 tomato_records[today] = {"completion_times": [end_time], "tomato_number": 1}
 
-            f.truncate(0)
+            f.seek(0)
+            f.truncate()
             json.dump(tomato_records, f, indent=4)
 
 def play_end_riff():
