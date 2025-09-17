@@ -1,19 +1,22 @@
 import datetime
 import time
-import math
 import os
 import json
+import marko
+from marko import Markdown
+from marko.md_renderer import MarkdownRenderer
 
-TOMATO = 30 # minutes
-tomato_records_path = "/home/Qtmd/pylab/simple-scheduler/data/tomato-records.json"
+TOMATO = 0 # minutes
+tomato_records_path = "/home/Qtmd/pylab/simple-scheduler/test/tomato-records.json"
 task_pool_path = "/home/Qtmd/Journal/gaokao/task pool.md"
+MD = Markdown(renderer=MarkdownRenderer)
 
 def main():
     read_tasks_pool()
     end_time = tomato_clock_emulation()
     record_tomato(end_time)
-    manipulate_tasks_pool()
-    play_end_riff()
+    edit_tasks_pool()
+    #play_end_riff()
 
 def tomato_clock_emulation():
     """
@@ -67,13 +70,20 @@ def play_end_riff():
     print("playing end riff...")
     os.execl("/usr/bin/mpv", "mpv", "--no-terminal", "--really-quiet", "./resources/Last guitar riff before World War 3.mp3")
 
-def read_tasks_pool():
-    # TODO
-    pass
-
-def manipulate_tasks_pool():
+def read_tasks_pool() -> list[marko.block.BlockElement]:
     """
-    parse task pool and cross checkbox
+    read the tasks pool and return ElementBlock the top task for each pool
+    """
+    with open("./tests/task pool.md", "r", encoding="utf-8") as f:
+        md_text = f.read()
+        doc_node = MD.parse(md_text)
+        # find the top task element of each pool
+        for child in doc_node.children:
+            # find heading first
+            if isinstance(child, marko.block.Heading):
+
+def edit_tasks_pool():
+    """
     """
     is_completed = bool(input("task completed? (Any for yes/Enter for no) "))
     # TODO
